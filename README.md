@@ -12,4 +12,4 @@
 ## Running from file
 
 1. Start terminal/command line/PowerShell.
-2. Enter `python3 <path/filename.py>`. Example: `python3 ./python-basics/numbers.py` to run `numbers.py` in this repository.
+2. Enter `python3 <path/filename.py>`. Example: `python3 ./python-basics/1-numbers.py` to run `1-numbers.py` in this repository.
