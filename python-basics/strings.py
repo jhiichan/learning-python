@@ -36,3 +36,9 @@ print(word1 * 4) #will repeat Hello 4x
 # index
 print(word1[1]) #prints second letter `e`
 print(word1[-1]) #prints letter starting from the right `o`
+
+# convert number to string
+num1 = 1000
+print(type(num1))
+conString = str(num1)
+print(type(conString))
