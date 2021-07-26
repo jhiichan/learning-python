@@ -1,3 +1,6 @@
+from typing import List
+
+
 my_shows = {
     0: {
         'title': 'The Avengers',
@@ -20,10 +23,13 @@ my_shows = {
 }
 
 # print(my_shows)
+keyword ='Julie Bowen'
 result = {}
 for key, value in my_shows.items():
     show = list(value.values())
-    if 'movie' in show:
+    if keyword in show:
+        result[key] = my_shows[key]
+    elif keyword in value['cast']:
         result[key] = my_shows[key]
 
 print(result)
