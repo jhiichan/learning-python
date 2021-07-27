@@ -46,7 +46,13 @@ const ShowsPage = () => {
 
     const getAllShows = async () => {
         await axios.get('http://localhost:3030/show/').then(({data}) => {
-            setShowsData(data);
+            setShowsData(data.data);
+        });
+    }
+
+    const searchShow = async () => {
+        await axios.get('http://localhost:3030/show/search/' + searchKeyword).then(({data}) => {
+            setShowsData(data.data);
         });
     }
 
@@ -55,9 +61,21 @@ const ShowsPage = () => {
             <Typography variant='h1'>Shows</Typography>
             <FilterContainer>
                 <TextField id='search-keyword' name='Search' label='Search' value={searchKeyword} onChange={handleSearchKeywordChange} />
-                <Button variant='contained' color='primary'>Search</Button>
+                <Button variant='contained' color='primary' onClick={searchShow}>Search</Button>
             </FilterContainer>
             <CardContainer>
+                {
+                    showsData.map(({ id, title, director, cast, type }) => (
+                        <Card key={id}>
+                            <CardHeader title={title} />
+                            <CardContent>
+                                <Typography variant='body1'>Director: {director}</Typography>
+                                <Typography variant='body1'>Casts: {cast.join(', ')}</Typography>
+                                <Typography variant='body1'>Type: {type}</Typography>
+                            </CardContent>
+                        </Card>
+                    ))
+                }
                 {/* <Card>
                     <CardHeader title={title} />
                     <CardContent>
