@@ -1,56 +1,80 @@
 from flask import (
     Blueprint
 )
+from flask_cors.decorator import cross_origin
+
 
 bp = Blueprint('show', __name__, url_prefix='/show')
 
+
 # Dummy Data
-my_shows = {
-    0: {
+my_shows = [
+    {
+        'id': 0,
         'title': 'The Avengers',
         'director': 'Joss Whedon',
         'cast': ['Robert Downey Jr.', 'Chris Evans', 'Chris Hemsworth'],
-        'type': 'movie'
+        'type': 'Movie'
     },
-    1: {
+    {
+        'id': 1,
         'title': 'Rurouni Kenshin Part I: Origins',
         'director': 'Keishi Ohtomo',
         'cast': ['Takeru Satoh', 'Emi Takei'],
-        'type': 'movie'
+        'type': 'Movie'
     },
-    2: {
+    {
+        'id': 2,
         'title': 'Modern Family',
         'director': '',
         'cast': ['Ed O\'Neill', 'Sofía Vergara', 'Julie Bowen' ,'Ty Burrell'],
-        'type': 'series'
+        'type': 'Series'
     },
-    3: {
-        'title': 'Modern Family',
-        'director': '',
-        'cast': ['Ed O\'Neill', 'Sofía Vergara', 'Julie Bowen' ,'Ty Burrell'],
-        'type': 'series'
+    {
+        'id': 3,
+        'title': 'Community',
+        'director': 'Dan Harmon',
+        'cast': ['Joel McHale', 'Gillian Jacobs', 'Danny Pudi' ,'Alison Brie', 'Donald Glover', 'Ken Jeong'],
+        'type': 'Series'
+    },
+    {
+        'id': 4,
+        'title': 'The Hangover',
+        'director': 'Todd Phillips',
+        'cast': ['Bradley Cooper', 'Ed Helms', 'Zach Galifianakis' ,'Justin Bartha', 'Ken Jeong'],
+        'type': 'Movie'
     }
-}
+]
+
 
 # API to get all shows
 @bp.route('/', methods=('GET',))
+@cross_origin()
 def index():
-    return my_shows
+    return { 'data': my_shows }
+
 
 # API to get details of one show using ID
 @bp.route('/<int:id>', methods=('GET',))
+@cross_origin()
 def get_by_id(id):
-    return my_shows[id]
+    result = {}
+
+    for show in my_shows:
+        if(1 == show[id]):
+            result = show
+
+    return result
+
 
 # API to search shows using a keyword
 @bp.route('/search/<string:keyword>', methods=('GET',))
+@cross_origin()
 def search(keyword):
-    result = {}
-    for key, value in my_shows.items():
-        show = list(value.values())
-        if keyword in show:
-            result[key] = my_shows[key]
-        elif keyword in value['cast']:
-            result[key] = my_shows[key]
+    result = []
+    for index, show in enumerate(my_shows):
+        show_info = list(show.values())
+        if keyword in show_info or keyword in show['cast']:
+            result.append(my_shows[index])
 
-    return result
+    return { 'data': result }
